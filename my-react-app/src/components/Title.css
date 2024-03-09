@@ -9,5 +9,6 @@
 #title-text {
   font-size: xx-large;
   font-weight: bold;
-  color: goldenrod;
+  color: #77DD77;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }

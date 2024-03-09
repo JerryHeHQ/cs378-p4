@@ -2,13 +2,11 @@ import React from 'react';
 import './DataSelector.css'
 
 function changeSelectorColors(isSelected1, isSelected2, isSelected3) {
-  var selectedColor = '#DAA520'
-  var unselectedColor = '#404040'
-  // document.getElementById("data-selector-current-col").style.backgroundColor = isSelected1 ? selectedColor : unselectedColor
-  document.getElementById("data-selector-current-col").style.borderColor = isSelected1 ? selectedColor : unselectedColor
-  document.getElementById("data-selector-current-col").style.borderRightColor = isSelected1 ? selectedColor : unselectedColor
-  document.getElementById("data-selector-price-col").style.borderColor = isSelected2 ? selectedColor : unselectedColor
-  document.getElementById("data-selector-orders-col").style.borderColor = isSelected3 ? selectedColor : unselectedColor
+  var selectedColor = '#77DD77'
+  var unselectedColor = '#F0F0F0'
+  document.getElementById("data-selector-current-col").style.backgroundColor = isSelected1 ? selectedColor : unselectedColor
+  document.getElementById("data-selector-price-col").style.backgroundColor = isSelected2 ? selectedColor : unselectedColor
+  document.getElementById("data-selector-orders-col").style.backgroundColor = isSelected3 ? selectedColor : unselectedColor
 }
 
 const DataSelector = ({changeDataDisplayType}) => {
