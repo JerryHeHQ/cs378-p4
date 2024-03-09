@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 import Title from './components/Title';
 import SearchBar from './components/SearchBar';
