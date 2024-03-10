@@ -17,7 +17,6 @@ const SearchBar = ({ onSearch }) => {
         <FaSearch 
           className="search-icon"
           id='search-bar-icon'
-          onClick={onSearch(searchTerm)}
         />
         <input
           className="search-input"

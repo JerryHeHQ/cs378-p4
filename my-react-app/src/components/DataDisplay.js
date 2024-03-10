@@ -1,27 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import DataDisplayPrice from './DataDisplayPrice';
-import DataDisplayCurrent from './DataDisplayCurrent';
-import DataDisplayOrders from './DataDisplayOrders';
+const DataDisplay = ({ message, itemId, changeMessage }) => {
+  const [data, setData] = useState(null);
 
-const DataDisplay = ({ dataDisplayType }) => {
-  if (dataDisplayType === "dataDisplayPrice") {
-    return <DataDisplayPrice />
-  }
-  if (dataDisplayType === "dataDisplayCurrent") {
-    return <DataDisplayCurrent />
-  }
-  if (dataDisplayType === "dataDisplayOrders") {
-    return <DataDisplayOrders />
-  }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          'https://cors-anywhere.herokuapp.com/https://na-trade.naeu.playblackdesert.com/Trademarket/GetMarketPriceInfo',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'User-Agent': 'BlackDesert',
+            },
+            body: JSON.stringify({
+              keyType: 0,
+              mainKey: itemId,
+              subKey: 0,
+            }),
+          }
+        );
+    
+        console.log('Full Response:', response);
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        console.log('API Data:', data);
+        setData(data.resultMsg)
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+        changeMessage('Error: Could Not Fetch Data')
+      }
+    };
+    if (itemId !== null) {
+      setData(null)
+      fetchData()
+    }
+  }, [itemId])
 
   return (
     <div className='row' id='data-display-row'>
       <div className='col' id='data-display-col'>
-        {dataDisplayType}
+        {titleCap(message)}
+        {data}
       </div>
     </div>
-  );
+  ); 
+
+
+
 };
+
+function titleCap(inputString) {
+  if (inputString && inputString.length > 0) {
+    return inputString
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  } else {
+    return inputString;
+  }
+}
+
 
 export default DataDisplay;

@@ -4,49 +4,33 @@ import './App.css';
 
 import Title from './components/Title';
 import SearchBar from './components/SearchBar';
-import DataSelector from './components/DataSelector';
 import DataDisplay from './components/DataDisplay';
-
-async function fetchData() {
-  try {
-    const response = await fetch(
-      'https://cors-anywhere.herokuapp.com/https://na-trade.naeu.playblackdesert.com/Trademarket/GetMarketPriceInfo',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'BlackDesert',
-        },
-        body: JSON.stringify({
-          keyType: 0,
-          mainKey: 721003,
-          subKey: 0,
-        }),
-      }
-    );
-
-    console.log('Full Response:', response);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data. Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('API Data:', data);
-  } catch (error) {
-    console.error('Error fetching data:', error.message);
-  }
-}
-
-function onSearch(searchTerm) {
-}
-
+import FertilizerSelector from './components/FertilizerSelector';
+import nameToIdMap from './constants/nameToIdMap';
 
 const App = () => {
-  const [dataDisplayType, setDataDisplayType] = useState("No Data");
+  // This is either a message to the user or the name of the item.
+  const [message, setMessage] = useState("No Data");
+  const [itemId, setItemId] = useState(null);
 
-  function changeDataDisplayType(newDataDisplayType) {
-    setDataDisplayType(newDataDisplayType)
+  function onSearch(searchTerm) {
+    if (!changeMessage(searchTerm)) {
+      setMessage("Error: Item Not Found");
+    }
+  }
+
+  function changeMessage(newMessage) {
+    if (message === newMessage) {
+      return;
+    }
+    setMessage(newMessage);
+    return changeItemId(newMessage);
+  }
+
+  function changeItemId(itemName) {
+    var newItemId = nameToIdMap.get(itemName.toLowerCase());
+    newItemId !== undefined ? setItemId(newItemId) : setItemId(null);
+    return newItemId !== undefined;
   }
 
   return (
@@ -57,9 +41,9 @@ const App = () => {
 
         <SearchBar onSearch={onSearch}/>
         
-        <DataSelector changeDataDisplayType={changeDataDisplayType}/>
+        <FertilizerSelector changeMessage={changeMessage} />
 
-        <DataDisplay dataDisplayType={dataDisplayType}/>
+        <DataDisplay message={message} itemId={itemId} changeMessage={changeMessage}/>
 
       </div>
     </div>
