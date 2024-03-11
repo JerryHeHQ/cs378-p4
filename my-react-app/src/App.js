@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -10,8 +10,13 @@ import nameToIdMap from './constants/nameToIdMap';
 
 const App = () => {
   // This is either a message to the user or the name of the item.
-  const [message, setMessage] = useState("No Data");
+  var startItemName = "Organic Fertilizer"
+  const [message, setMessage] = useState("Loading...");
   const [itemId, setItemId] = useState(null);
+
+  useEffect(() => {
+    changeMessage(startItemName)
+  }, []);
 
   function onSearch(searchTerm) {
     if (!changeMessage(searchTerm)) {
@@ -43,7 +48,8 @@ const App = () => {
         
         <FertilizerSelector changeMessage={changeMessage} />
 
-        <DataDisplay message={message} itemId={itemId} changeMessage={changeMessage}/>
+        {/* <DataDisplay message={message} itemId={itemId} changeMessage={changeMessage}/> */}
+        <DataDisplay itemId={itemId} message={message} changeMessage={changeMessage}/>
 
       </div>
     </div>
